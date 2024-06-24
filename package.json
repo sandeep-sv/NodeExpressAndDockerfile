@@ -1,0 +1,15 @@
+{
+  "name": "nodeexpressanddockerfile",
+  "version": "1.0.0",
+  "description": "Creating docker image using docker file | Assignment 2 | DevOps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Venkata Sandeep Reddy Sabbella - C0868022",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
