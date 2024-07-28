@@ -9,33 +9,20 @@ pipeline {
     stage('Cloning Git') {
       steps {
         git([url: 'https://github.com/sandeep-sv/NodeExpressAndDockerfile.git', branch: 'main'])
+ 
       }
     }
     stage('Building docker image') {
-      steps {
+      steps{
         script {
-          def retries = 3
-          def success = false
-          for (int i = 0; i < retries; i++) {
-            try {
-              dockerImage = docker.build(imagename)
-              success = true
-              break
-            } catch (Exception e) {
-              echo "Attempt ${i+1} failed, retrying..."
-              sleep(10) // wait 10 seconds before retrying
-            }
-          }
-          if (!success) {
-            error "Failed to build Docker image after ${retries} attempts"
-          }
+          dockerImage = docker.build imagename
         }
       }
     }
     stage('Deploy docker Image') {
-      steps {
+      steps{
         script {
-          docker.withRegistry('', registryCredential) {
+          docker.withRegistry( '', registryCredential ) {
             dockerImage.push("$BUILD_NUMBER")
             dockerImage.push('latest')
           }
@@ -43,7 +30,7 @@ pipeline {
       }
     }
     stage('Remove Unused docker image') {
-      steps {
+      steps{
         sh "docker rmi $imagename:$BUILD_NUMBER"
         sh "docker rmi $imagename:latest"
       }
